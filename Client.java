@@ -36,7 +36,6 @@ public class Client
 			out = new PrintWriter(socket_serveur.getOutputStream());
       			in = new BufferedReader(new InputStreamReader(socket_serveur.getInputStream()));
 			reception=new ThreadReception(in);
-			/* String message_distant = in.readLine();*/
 			communication_serveur();
 		        socket_serveur.close();
 		       
@@ -48,36 +47,73 @@ public class Client
 	{
 
 		BufferedReader bufferRead = new BufferedReader(new InputStreamReader(System.in));
-		/*try{System.out.println(in.readLine());}		catch (IOException e){ }
-		try{System.out.println(in.readLine());}		catch (IOException e){ }
-		try{System.out.println(in.readLine());}		catch (IOException e){ }*/
-		String s="";
-		try{s = bufferRead.readLine();}
+		String clavier="";
+		try{clavier = bufferRead.readLine();}
 		catch (IOException e){ }
+		envoie_message_serveur(clavier);/*choix menu*/
+		if(clavier.equals("1")==true)
+			chat();
+		if(clavier.equals("2")==true)
+			jouer();
 
+	}
 	
-		out.println(s);
-		out.flush();
-		s="";
-	/*	try{System.out.println(in.readLine());}		catch (IOException e){ }
-		try{System.out.println(in.readLine());}		catch (IOException e){ }*/
-
-		System.out.println("choix du correspondant");
-		try{s = bufferRead.readLine();}
-		catch (IOException e){ }
-		out.println(s);
-		out.flush();
-
-		while(true)
-		{
-			System.out.println("message:");
-			try{s = bufferRead.readLine();}
-			catch (IOException e){ }
-			out.println(s);
-			out.flush();
-
-		}
-		
+	public void jouer()
+	{
 		
 	}
+
+
+	
+	public void chat()
+	{
+
+		String clavier;
+		clavier=lire_ligne();
+
+		while(clavier.equals("q")==false)
+		{
+			clavier="";
+			clavier=lire_ligne();
+			envoie_message_serveur(clavier);/*choix correspondant*/
+
+		}
+
+		clavier="";
+
+		while(clavier.equals("stop")==false)
+		{
+			clavier="";
+			clavier=lire_ligne();
+			envoie_message_serveur(clavier);/*message*/
+
+
+		}
+			
+	}
+	public  String lire_ligne()
+	{
+		BufferedReader bufferRead = new BufferedReader(new InputStreamReader(System.in));
+		String clavier="";
+		try{clavier = bufferRead.readLine();}
+		catch (IOException e){ }
+		return clavier;	
+	}
+		
+	public void envoie_message_serveur(String message)
+	{
+		out.println(message);
+		out.flush();
+		
+	}
+
+
+
+
+
+
+
+
+
+
 }

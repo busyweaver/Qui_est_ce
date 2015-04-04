@@ -53,8 +53,6 @@ public class ThreadClient implements Runnable {
 		public void run()
 		{
 			String message = "";
-			out.println("Vous êtes connecté zéro !");
-		        out.flush();
 			try
 			{
 
@@ -90,81 +88,65 @@ public class ThreadClient implements Runnable {
 
 public void chat()
 {
+	List salon;
+	salon=new ArrayList();
 	out.println("***********************");	
 	out.println("Bienvenue dans le chat");	
 	out.println("***********************");	
-      	numClient = serveur.addClient(this,1);
 
-	try{
-
-	getListClients(1);
-	serveur.sendMessage(numClient,
-	String reponse="";
-	reponse=in.readLine();
-	System.out.println(reponse);
-	List salon;
-	salon=new ArrayList();
-	salon.add(numClient);
-	salon.add(reponse.charAt(0));
-	String message="";
-
-	
-	
-	while(true)
+	try
 	{
-		message=in.readLine();
-		System.out.println("message recu par thread"+message);
-		serveur.sendMessage(numClient,message,salon);	
-		message="";	
-		/*while(in.read(commande, 0, 1)!=-1)
+
+		envoie_message_client(getListClients(1));
+		String reponse="";
+		while(reponse.equals("q")==false)
 		{
-			if (commande[0] != '\u0000' && commande[0] != '\n' && commande[0] != '\r')
-				 message += commande[0];
-			else
-			{
-				message=message+'\u0000';
-				serveur.sendMessage(message,salon);
-			}
-		}*/
-	}
+			reponse="";
+			reponse=in.readLine();
+			salon.add(reponse);
+
+		}
+		reponse="";
+		while(reponse.equals("stop")==false)
+		{
+			reponse="";		
+			reponse=in.readLine();
+			serveur.sendMessage(numClientChat,reponse,salon);	
+
+		}
 	}
 	catch (Exception e){ }				
 
-}
-
-
-public PrintWriter getOut()
-{
-	return out;
 }
 
 	
 
 public void jouer()
 {
-	System.out.println("***********************");	
-	System.out.println("Bienvenue dans le jeu");	
-	System.out.println("***********************");	
-	System.out.println("voici la liste des personnes connectes a qui souhaitez vous parler?");
+
 }
 
 public String getListClients(int option)
 {
-	
-		out.println("***********************");	
-		out.println("Liste personnes connectees");	
-		out.println("***********************");	
-		String clients="";
+	String clients="***********************\nListe personnes connectees\n***********************\n";
 	if(option==1)
-		clients=serveur.getClients(numClientChat,1);
+		clients=clients+serveur.getClients(numClientChat,1);
 	else
 		clients=serveur.getClients(numClientJouer,2);
-	out.println(clients);		
-	out.flush();
+	
 	return clients;
 }
 
+public void envoie_message_client(String message)
+{
+	out.println(message);		
+	out.flush();		
+}
 
+public PrintWriter getOut()
+{
+	return out;
+}
 
 }
 
