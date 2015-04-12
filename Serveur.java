@@ -34,7 +34,7 @@ public class Serveur
 		try {
 
 			socket_serveur = new ServerSocket(2009);
-			System.out.println("Le serveur est à l'écoute du port ..dsfds "+socket_serveur.getLocalPort());
+			System.out.println("Le serveur est à l'écoute du port ..dsfdsdsf!!! "+socket_serveur.getLocalPort());
 
 			while (true) // attente en boucle de connexion (bloquant sur ss.accept)
 			        new ThreadClient(socket_serveur.accept(),this); // un client se connecte, un nouveau thread 
